@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Scope;
+use App\Http\Resources\PositionResource;
+use App\Models\Position;
 use Illuminate\Http\Request;
 
-class ScopeController extends Controller
+class PositionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,17 +16,7 @@ class ScopeController extends Controller
      */
     public function index()
     {
-        return response()->json(Scope::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return PositionResource::collection(Position::all());
     }
 
     /**
@@ -42,21 +33,10 @@ class ScopeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Scope  $scope
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Scope $scope)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Scope  $scope
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Scope $scope)
+    public function show($id)
     {
         //
     }
@@ -65,10 +45,10 @@ class ScopeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Scope  $scope
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Scope $scope)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -76,10 +56,10 @@ class ScopeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Scope  $scope
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Scope $scope)
+    public function destroy($id)
     {
         //
     }

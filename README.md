@@ -32,6 +32,10 @@ Install passport
 
     sail artisan passport:install
 
+Symlink storage folder
+
+    sail artisan storage:link
+
 You can now access the server at <http://localhost>
 
 Switch to the nuxt folder next

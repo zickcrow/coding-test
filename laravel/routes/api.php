@@ -7,6 +7,8 @@ use App\Http\Controllers\API\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\API\V1\Auth\VerificationController;
 use App\Http\Controllers\API\V1\CandidateController;
 use App\Http\Controllers\API\V1\EducationInstitutionController;
+use App\Http\Controllers\API\V1\PositionController;
+use App\Http\Controllers\API\V1\SkillController;
 use App\Http\Controllers\API\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,13 +52,12 @@ Route::prefix('v1')->group(function () {
 
     Route::delete('user', [UserController::class, 'destroy']);
 
-    /*
-     * EducationInstitution
-     */
-    Route::apiResource('/institutions', EducationInstitutionController::class);
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::apiResource('/candidates', CandidateController::class)->except(['create']);
+    });
 
-    /*
-     * Candidate
-     */
-    Route::apiResource('/candidates', CandidateController::class);
+    Route::apiResource('/candidates', CandidateController::class)->only(['create']);
+    Route::apiResource('/institutions', EducationInstitutionController::class);
+    Route::apiResource('/positions', PositionController::class);
+    Route::apiResource('/skills', SkillController::class);
 });

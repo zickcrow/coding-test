@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EducationInstitutionResource;
 use App\Models\EducationInstitution;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class EducationInstitutionController extends Controller
      */
     public function index()
     {
-        return response()->json(EducationInstitution::all());
+        return response()->json(EducationInstitutionResource::collection(EducationInstitution::all()));
     }
 
     /**

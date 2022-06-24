@@ -14,6 +14,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'verified' => $this->hasVerifiedEmail(),
             'created_at' => $this->created_at,
+            'scopes' => $this->scopes->pluck('name', 'code')->toArray(),
         ];
     }
 }

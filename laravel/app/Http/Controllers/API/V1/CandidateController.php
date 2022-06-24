@@ -4,7 +4,10 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\V1\Candidate\StoreRequest;
+use App\Http\Requests\API\V1\Candidate\UpdateRequest;
+use App\Http\Resources\CandidateResource;
 use App\Models\Candidate;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 
 class CandidateController extends Controller
@@ -16,7 +19,8 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        return response()->json(Candidate::paginate(10));
+        $candidates = CandidateResource::collection(Candidate::paginate(10))->response()->getData(true);
+        return response()->json($candidates);
     }
 
     /**
@@ -28,6 +32,20 @@ class CandidateController extends Controller
     public function store(StoreRequest $request)
     {
         $candidate = Candidate::create($request->validated());
+
+        // Update skills
+        if ($request->has('skills')) {
+            $skills = collect($request->skills)->map(function ($skill) {
+                return Skill::where('name', $skill)->first()->id;
+            });
+            $candidate->skills()->sync($skills);
+        }
+
+        // Store resume
+        if ($request->hasFile('resume')) {
+            $candidate->resume = $request->file('resume')->store('resumes');
+        }
+        $candidate->save();
 
         return response()->json($candidate, 201);
     }
@@ -42,20 +60,34 @@ class CandidateController extends Controller
     {
         $candidate = Candidate::findOrFail($id);
 
-        return response()->json($candidate);
+        return response()->json(new CandidateResource($candidate));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\API\V1\Candidate\StoreRequest  $request
+     * @param  \App\Http\Requests\API\V1\Candidate\UpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         $candidate = Candidate::findOrFail($id);
         $candidate->update($request->validated());
+
+        // Update skills
+        if ($request->has('skills')) {
+            $skills = collect($request->skills)->map(function ($skill) {
+                return Skill::where('name', $skill)->first()->id;
+            });
+            $candidate->skills()->sync($skills);
+        }
+
+        // Store resume
+        if ($request->hasFile('resume')) {
+            $candidate->resume = $request->file('resume')->store('resumes');
+            $candidate->save();
+        }
 
         return response()->json($candidate);
     }

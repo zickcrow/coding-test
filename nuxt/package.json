@@ -27,7 +27,8 @@
     "@nuxtjs/pwa": "^3.0.2",
     "@nuxtjs/toast": "^3.3.1",
     "core-js": "^3.7.0",
-    "nuxt": "^2.14.6"
+    "nuxt": "^2.14.6",
+    "vue-tailwind": "^2.5.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",

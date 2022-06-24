@@ -25,9 +25,13 @@
 export default {
   middleware: 'auth',
   async fetch() {
-    await this.$auth
-      .fetchUser()
-      .then((response) => (this.loggedInUser = response.data.data))
+    await this.$auth.fetchUser().then((response) => {
+      this.loggedInUser = response.data.data
+      window.localStorage.setItem(
+        'loggedInUser',
+        JSON.stringify(this.$auth.user.data)
+      )
+    })
   },
   data() {
     return {

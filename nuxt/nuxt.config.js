@@ -58,16 +58,17 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    proxy: true,
+    // proxy: true,
     baseURL: process.env.API_URL,
+    creadentials: true,
   },
 
-  proxy: {
-    '/backend': {
-      target: process.env.API_URL,
-      pathRewrite: { '^/backend': '/' },
-    },
-  },
+  // proxy: {
+  //   '/backend': {
+  //     target: process.env.API_URL,
+  //     pathRewrite: { '^/backend': '/' },
+  //   },
+  // },
 
   // Content module configuration (https://go.nuxtjs.dev/config-content)
   content: {},

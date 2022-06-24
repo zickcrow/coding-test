@@ -132,8 +132,14 @@ export default {
 
       await this.$auth
         .loginWith('laravelPassport', { data: this.form })
-        .then(() => this.$router.push('/profile'))
-        .catch((e) => (this.error = 'Incorrect email or password.'))
+        .then(() => {
+          this.$toast.success('Login Successful')
+          this.$router.push('/profile')
+        })
+        .catch((e) => {
+          this.error = e.response.data.message
+          this.$toast.error(this.error)
+        })
     },
   },
 }
